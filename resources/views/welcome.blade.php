@@ -85,9 +85,15 @@
                 </div>
 
                 <div>
-                    <a><input type="button" class="btn-primary" value="Normal User"/></a>
-                    <a><input type="button" class="btn-primary" value="Manager"/></a>
-                    <a><input type="button" class="btn-primary" value="Admin"/></a>
+                    @if (Route::has('login'))
+                    <div>
+                        @auth
+                            <a href="{{ url('/home') }}"><input type="button" class="form-control" value="Get Started"></a>
+                        @else
+                            <a href="{{ route('login') }}"><input type="button" class="form-control" value="Get Started"></a>
+                        @endauth
+                    </div>
+                @endif
                 </div>
             </div>
         </div>

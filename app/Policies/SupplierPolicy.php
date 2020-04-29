@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Transaction;
+use App\Supplier;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TransactionPolicy
+class SupplierPolicy
 {
     use HandlesAuthorization;
 
@@ -21,36 +21,14 @@ class TransactionPolicy
         //
     }
 
-    public function manager(User $user)
-    {
-        return in_array($user->role, [
-            'manager'
-        ]);
-    }
-
-    public function admin(User $user)
-    {
-        return in_array($user->role, [
-            'admin'
-        ]);
-    }
-
-    public function user(User $user)
-    {
-        return in_array($user->role, [
-            'user'
-        ]);
-    }
-
-
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Transaction  $transaction
+     * @param  \App\Supplier  $supplier
      * @return mixed
      */
-    public function view(User $user, Transaction $transaction)
+    public function view(User $user, Supplier $supplier)
     {
         //
     }
@@ -70,10 +48,10 @@ class TransactionPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Transaction  $transaction
+     * @param  \App\Supplier  $supplier
      * @return mixed
      */
-    public function update(User $user, Transaction $transaction)
+    public function update(User $user, Supplier $supplier)
     {
         //
     }
@@ -82,10 +60,10 @@ class TransactionPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Transaction  $transaction
+     * @param  \App\Supplier  $supplier
      * @return mixed
      */
-    public function delete(User $user, Transaction $transaction)
+    public function delete(User $user, Supplier $supplier)
     {
         //
     }
@@ -94,10 +72,10 @@ class TransactionPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Transaction  $transaction
+     * @param  \App\Supplier  $supplier
      * @return mixed
      */
-    public function restore(User $user, Transaction $transaction)
+    public function restore(User $user, Supplier $supplier)
     {
         //
     }
@@ -106,10 +84,10 @@ class TransactionPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\User  $user
-     * @param  \App\Transaction  $transaction
+     * @param  \App\Supplier  $supplier
      * @return mixed
      */
-    public function forceDelete(User $user, Transaction $transaction)
+    public function forceDelete(User $user, Supplier $supplier)
     {
         //
     }

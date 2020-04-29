@@ -14,6 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('admin', UserPolicy::class);
         $users = User::latest()->paginate(10);
         return view('user.userlist', compact('users'));
     }
@@ -27,6 +28,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $this->authorize('admin', UserPolicy::class);
         $user= User::findOrFail($id);
         return view('user.userview', ['user' => $user]);
     }
@@ -39,6 +41,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('admin', UserPolicy::class);
         $user = User::findOrFail($id);
         return view('user.edituser', compact('users'));
     }
@@ -52,6 +55,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('admin', UserPolicy::class);
         $user = User::findOrFail($id);
         $user->name = $request->name;
         $user->email = $request->email;
@@ -68,6 +72,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('admin', UserPolicy::class);
         $user = User::findorFail($id);
         $user->delete();
         return redirect('/users')->with('success', 'user deleted!');

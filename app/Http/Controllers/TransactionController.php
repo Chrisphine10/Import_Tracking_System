@@ -38,7 +38,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-    
+        $this->authorize('user', TransactionPolicy::class);
         $transaction = new Transaction();
         $transaction->proforma_invoice_number = $request->proforma_invoice_number;
         $transaction->quantity = $request->quantity;
@@ -79,6 +79,7 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('user', 'admin', TransactionPolicy::class);
         $transaction = Transaction::findOrFail($id);
         return view('transaction.edittransaction', compact('transaction'));
     }
@@ -92,7 +93,7 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $this->authorize('user', 'admin', TransactionPolicy::class);
         $transaction = Transaction::findorFail($id);
         $transaction->proforma_invoice_number = $request->proforma_invoice_number;
         $transaction->quantity = $request->quantity;
@@ -112,6 +113,7 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
+        //not recommended... add the data to trash table
         $transaction = Transaction::findorFail($id);
         $transaction->delete();
         return redirect('/transactions')->with('success', 'transactions deleted!');
