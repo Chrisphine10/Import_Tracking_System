@@ -11,18 +11,6 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group row">
-                            <label for="user_role" class="col-md-4 col-form-label text-md-right">User Account</label>
-                            <div class="col-md-6">
-
-                                <select class="form-control" id="payment_terms" required name='payment_terms'>
-                                    <option value="">-select account type-</option>
-                                    <option value="user">user</option>
-                                    <option value="manager">manager</option>
-
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">

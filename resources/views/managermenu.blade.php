@@ -14,13 +14,7 @@
                         </div>
                     @endif
 
-                    menu
                     <a href="{{ route('transactions.index')}}" class="btn btn-primary">Transactions List</a>
-                    search button
-                    sorting capabilities
-                    period specific search
-                    search averaging
-                    graph generation
 
                 </div>
             </div>

@@ -38,7 +38,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('user', TransactionPolicy::class);
+        $this->authorize('user', Transaction::class);
         $transaction = new Transaction();
         $transaction->proforma_invoice_number = $request->proforma_invoice_number;
         $transaction->quantity = $request->quantity;
@@ -79,7 +79,7 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('user', 'admin', TransactionPolicy::class);
+        $this->authorize('user', 'admin', Transaction::class);
         $transaction = Transaction::findOrFail($id);
         return view('transaction.edittransaction', compact('transaction'));
     }
@@ -93,7 +93,7 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->authorize('user', 'admin', TransactionPolicy::class);
+        $this->authorize('user', 'admin', Transaction::class);
         $transaction = Transaction::findorFail($id);
         $transaction->proforma_invoice_number = $request->proforma_invoice_number;
         $transaction->quantity = $request->quantity;

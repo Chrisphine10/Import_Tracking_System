@@ -25,7 +25,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        $this->authorize('user', 'admin', SupplierPolicy::class);
+        $this->authorize('create', Supplier::class);
         return view('supplier.addsupplier');
     }
 
@@ -37,7 +37,7 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('user', 'admin', SupplierPolicy::class);
+        $this->authorize('create', Supplier::class);
         $supplier = new Supplier();
         $supplier->name = $request->name;
         $supplier->email = $request->email;
@@ -71,7 +71,7 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('user', 'admin', SupplierPolicy::class);
+        $this->authorize('create', Supplier::class);
         $supplier = Supplier::findOrFail($id);
         return view('supplier.editsupplier', compact('supplier'));
     }
@@ -85,6 +85,7 @@ class SupplierController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('create', Supplier::class);
         $supplier = Supplier::findOrFail($id);
         $supplier->name = $request->name;
         $supplier->email = $request->email;
@@ -102,7 +103,7 @@ class SupplierController extends Controller
     public function destroy($id)
     {
         //deletion is not recommended
-        $this->authorize('user', 'admin', SupplierPolicy::class);
+        $this->authorize('create', Supplier::class);
         $supplier = Supplier::findorFail($id);
         $supplier->delete();
         return redirect('/suppliers')->with('success', 'supplier deleted!');

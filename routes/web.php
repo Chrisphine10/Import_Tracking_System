@@ -17,7 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::resource('users', 'UserController')->middleware('auth');
+
+Route::get('/progress', 'ProgressController@index');
 
 //Route::resource('transactions', 'TransactionController');
 Route::resource('transactions', 'TransactionController')->middleware('auth');
@@ -32,6 +35,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');

@@ -18,7 +18,7 @@ class SupplierPolicy
      */
     public function viewAny(User $user)
     {
-        //
+    //
     }
 
     /**
@@ -41,7 +41,9 @@ class SupplierPolicy
      */
     public function create(User $user)
     {
-        //
+        return in_array($user->role, [
+            'user', 'admin'
+        ]);
     }
 
     /**

@@ -15,23 +15,6 @@ class UserPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
-    {
-       //
-    }
-    public function manager(User $user)
-    {
-        return in_array($user->role, [
-            'manager'
-        ]);
-    }
-
-    public function admin(User $user)
-    {
-        return in_array($user->role, [
-            'admin'
-        ]);
-    }
     /**
      * Determine whether the user can view the model.
      *
@@ -52,7 +35,9 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return in_array($user->role, [
+            'admin'
+        ]);
     }
 
     /**

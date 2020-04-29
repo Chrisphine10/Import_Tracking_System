@@ -20,29 +20,7 @@ class TransactionPolicy
     {
         //
     }
-
-    public function manager(User $user)
-    {
-        return in_array($user->role, [
-            'manager'
-        ]);
-    }
-
-    public function admin(User $user)
-    {
-        return in_array($user->role, [
-            'admin'
-        ]);
-    }
-
-    public function user(User $user)
-    {
-        return in_array($user->role, [
-            'user'
-        ]);
-    }
-
-
+    
     /**
      * Determine whether the user can view the model.
      *
@@ -63,7 +41,9 @@ class TransactionPolicy
      */
     public function create(User $user)
     {
-        //
+        return in_array($user->role, [
+            'admin'
+        ]);
     }
 
     /**

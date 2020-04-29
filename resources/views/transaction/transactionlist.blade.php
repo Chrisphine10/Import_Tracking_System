@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Transactions List') }}
                     <div style="text-align: center">
-                    <a href="{{ route('transactions.create')}}" class="btn btn-primary">New Transaction</a>
+                    <a href="{{ route('suppliers.create')}}" class="btn btn-primary">New Transaction</a>
                     </div>
                 </div>
                 <div class="card-body">

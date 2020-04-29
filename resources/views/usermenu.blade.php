@@ -13,9 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    menu
-                    <a href="{{ route('suppliers.create')}}" class="btn btn-primary">Add Transaction</a>
+                    <a href="{{ route('progress.index') }}" class="btn btn-primary">Add Transaction</a>
                     <a href="{{ route('transactions.index')}}" class="btn btn-primary">Transactions List</a>
                 </div>
             </div>

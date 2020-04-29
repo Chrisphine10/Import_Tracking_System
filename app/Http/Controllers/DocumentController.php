@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Document;
+use Storage;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
@@ -36,6 +37,8 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
+        $path = Storage::putFile('public', $request->file('image'));
+        $url = Storage::url($path);
         $document = new Document();
         $document->proforma_invoice = $request->proforma_invoice;
         $document->idf = $request->idf;
