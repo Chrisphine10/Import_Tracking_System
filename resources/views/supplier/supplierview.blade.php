@@ -29,11 +29,7 @@
                             <button type="submit" class="btn btn-secondary" style="margin-right: 1em;">edit</button>
                         </form>
 
-                        <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">delete</button>
-                        </form>
+                      
 
 
             </div>

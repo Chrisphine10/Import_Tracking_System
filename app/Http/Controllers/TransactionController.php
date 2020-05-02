@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Transaction;
 use App\Document;
+use App\Supplier;
+use Storage;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -27,6 +29,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Transaction::class);
         return view('transaction.addtransaction');
     }
 
@@ -38,21 +41,40 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('user', Transaction::class);
+        
+        $this->authorize('create', Transaction::class);
+
+        $request->validate([
+            'image'     =>  'required|image|mimes:jpeg,png,jpg,pdf|max:2048'
+            
+            ]);
+
+        $supplier = new Supplier();
+        $supplier->name = $request->name;
+        $supplier->email = $request->email;
+        $supplier->phone = $request->phone;
+        $supplier->save();
+ 
+        $path = Storage::putFile('public', $request->file('image'));
+        $url = Storage::url($path);
+
+        $document = new Document();
+        $document->proforma_invoice = $url;
+        $document->save();
+
         $transaction = new Transaction();
         $transaction->proforma_invoice_number = $request->proforma_invoice_number;
         $transaction->quantity = $request->quantity;
         $transaction->unit_price = $request->unit_price;
         $transaction->total_price = ($request->quantity * $request->unit_price);
         $transaction->payment_terms = $request->payment_terms;
+        $transaction->description = $request->description;
         $transaction->user_id = \Auth::User()->id;
-        $transaction->supplier_id = $request->session()->get('supplier_id');
+        $transaction->supplier_id = $supplier->id;
+        $transaction->document_id = $document->id;
         $transaction->status = "ordered";
         $transaction->save();
 
-        $document = new Document();
-        $document->transaction_id = $transaction->id;
-        $document->save();
         return redirect('/transactions')->with('success', 'transactions added!');
     }
 
@@ -65,9 +87,14 @@ class TransactionController extends Controller
     public function show($id)
     {
         $transaction = Transaction::findOrFail($id);
-        $tid = $transaction->id;
-        $document = Document::where('transaction_id', '=', $tid)->get();
-        return view('transaction.transactionview', ['transaction' => $transaction, 'document' => $document]);
+        return view('transaction.transactionview', ['transaction' => $transaction]);
+       
+    }
+
+    public static function showstatic($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        return $transaction;
        
     }
 
@@ -79,7 +106,7 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('user', 'admin', Transaction::class);
+        $this->authorize('create', Transaction::class);
         $transaction = Transaction::findOrFail($id);
         return view('transaction.edittransaction', compact('transaction'));
     }

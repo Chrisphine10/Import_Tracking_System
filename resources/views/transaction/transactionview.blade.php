@@ -32,23 +32,13 @@
                         {{ $transaction->user_id }}
                         </p>
 
-                        <p><strong>Document</strong>
-                        {{ $document->id }}
-                        </p>
-
-
+                      
                         <form action="{{ route('transactions.edit', $transaction->id) }}" method="get">
                             @csrf
                             <button type="submit" class="btn btn-secondary" style="margin-right: 1em;">edit</button>
                         </form>
 
-                        <form action="{{ route('transactions.destroy', $transaction->id) }}" method="post">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">delete</button>
-                        </form>
-
-
+                        
             </div>
             
             </div>

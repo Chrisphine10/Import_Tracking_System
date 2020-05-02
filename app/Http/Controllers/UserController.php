@@ -31,6 +31,11 @@ class UserController extends Controller
         $user= User::findOrFail($id);
         return view('user.userview', ['user' => $user]);
     }
+    public static function showstatic($id)
+    {
+        $user= User::findOrFail($id);
+        return $user;
+    }
 
     /**
      * Show the form for editing the specified resource.

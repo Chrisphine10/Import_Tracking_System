@@ -59,10 +59,14 @@ class SupplierController extends Controller
      */
     public function show($id)
     {
-        $supplier= Supplier::findOrFail($id);
+        $supplier = Supplier::findOrFail($id);
         return view('supplier.supplierview', ['supplier' => $supplier]);
     }
-
+    public static function showstatic($id)
+    {
+        $supplier = Supplier::findOrFail($id);
+        return $supplier;
+    }
     /**
      * Show the form for editing the specified resource.
      *

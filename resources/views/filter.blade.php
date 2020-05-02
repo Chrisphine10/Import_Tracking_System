@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">User Dashboard</div>
+                <div class="card-header">Filter</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <a href="{{ route('transactions.index')}}" class="btn btn-primary">Transactions List</a>
+
                 </div>
             </div>
         </div>

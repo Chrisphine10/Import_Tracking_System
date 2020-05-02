@@ -21,9 +21,9 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/transactions') }}">
                     {{ config('app.name', 'Import Tracking System') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -43,15 +43,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+                           
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                  {{ Auth::user()->role }} : {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -71,10 +67,37 @@
                 </div>
             </div>
         </nav>
+        @guest
+        @else
+        <nav class="navbar navbar-expand-md">
+            <div class="container">
+<ul class="navbar-nav mr-auto">
+    <li>
+        <a style="margin:2px;" href="{{ route('transactions.create')}}" class="btn btn-success">Add Transaction</a>
+    </li>
+    <li>
+        <a style="margin:2px;" href="{{ route('transactions.create')}}" class="btn btn-success">Print</a>
+    </li>
+    <li>
+        <a style="margin:2px;" href="{{ route('filters.index')}}" class="btn btn-success">Filter</a>
+    </li>
+
+</ul>
+            
+            
+            
+       
+            </div>
+         </nav>
+         @endguest
 
         <main class="py-4">
             @yield('content')
         </main>
+     
+@extends('layouts.navigate')
+@section('content')
+@endsection
     </div>
 </body>
 </html>

@@ -20,7 +20,9 @@ Route::get('/', function () {
 
 Route::resource('users', 'UserController')->middleware('auth');
 
-Route::get('/progress', 'ProgressController@index');
+Route::resource('progresses', 'ProgressController')->middleware('auth');
+
+Route::resource('filters', 'FilterController')->middleware('auth');
 
 //Route::resource('transactions', 'TransactionController');
 Route::resource('transactions', 'TransactionController')->middleware('auth');

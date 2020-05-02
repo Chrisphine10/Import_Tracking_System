@@ -14,9 +14,8 @@
                         </div>
                     @endif
 
-                    menu
                     <a href="{{ route('register') }}" class="btn btn-primary">Add User</a>
-                    <a href="{{ route('users.list')}}" class="btn btn-primary">Manage Users</a>
+                    <a href="{{ route('users.index')}}" class="btn btn-primary">Manage Users</a>
                     <a href="{{ route('transactions.index')}}" class="btn btn-primary">Transactions List</a>
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Document;
+use App\Additional;
 use Storage;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class DocumentController extends Controller
     public function index()
     {
         $documents = Document::latest()->paginate(10);
-        return view('document.documentlist', compact('documents'));
+        return view('document.documentslist', compact('documents'));
     }
 
     /**
@@ -26,8 +27,7 @@ class DocumentController extends Controller
      */
     public function create()
     {
-        return view('document.adddocument');
-    }
+            }
 
     /**
      * Store a newly created resource in storage.
@@ -37,19 +37,74 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
+
+
+        $request->validate([
+            'image'     =>  'required|image|mimes:jpeg,png,jpg,pdf|max:2048'
+            
+            ]);
+
+
+        if(isset($request->name)){
+        $name = $request->name;
+        $document = Document::findOrFail($request->id);
+            
         $path = Storage::putFile('public', $request->file('image'));
         $url = Storage::url($path);
-        $document = new Document();
-        $document->proforma_invoice = $request->proforma_invoice;
-        $document->idf = $request->idf;
-        $document->commercial_invoice = $request->commercial_invoice;
-        $document->bill_of_landing = $request->bill_of_landing;
-        $document->clearing = $request->clearing;
-        $document->additional_document_name = $request->additional_document_name;
-        $document->additional_document = $request->additional_document;
-        $document->transaction_id = $request->transaction_id;
+
+        $additional = new Additional();
+        $additional->document_id = $request->id;
+        $additional->document = $url;
+        $additional->document_name = $name;
+        $additional->save();
+        } 
+        elseif(isset($request->document_name)) {
+            $name = $request->document_name;
+            $document = Document::findOrFail($request->id);
+            
+        $path = Storage::putFile('public', $request->file('image'));
+        $url = Storage::url($path);
+        $document->$name = $url;
         $document->save();
-        return redirect('/documents')->with('success', 'documents saved!');
+        } 
+        // elseif(isset($request->document_name)) {
+        // $name = $request->document_name;
+
+        // if($name === 'proforma_invoice'){
+            
+        // }
+        // elseif($name === 'idf'){
+        //     $document = Document::findOrFail($request->id);
+        //     $document->idf = $url;
+        // }
+        // elseif($name === 'commercial_invoice'){
+        //     $document = Document::findOrFail($request->id);
+        //     $document->commercial_invoice = $url;
+        // }
+        // elseif($name === 'bill_of_landing'){
+        //     $document = Document::findOrFail($request->id);
+        //     $document->bill_of_landing = $url; 
+        // }
+        // elseif($name === 'clearing_document'){
+        //     $document = Document::findOrFail($request->id);
+        //     $document->clearing_document = $url; 
+        // }
+       
+        // }
+        // $document->proforma_invoice = $request->proforma_invoice;
+        // $document->idf = $request->idf;
+        // $document->commercial_invoice = $request->commercial_invoice;
+        // $document->bill_of_landing = $request->bill_of_landing;
+        // $document->clearing_document = $request->clearing_documen;
+        // $document->additional_document_name = $request->additional_document_name;
+        // $document->additional_document = $request->additional_document;
+        // $document->transaction_id = $request->transaction_id;
+        // $document->save();
+        //return redirect('/documents')->with('success', 'documents saved!');
+
+        return redirect()->action(
+            'TransactionController@index'
+        )->with('success', 'document saved!');
     }
 
     /**
@@ -60,11 +115,15 @@ class DocumentController extends Controller
      */
     public function show($id)
     {
-        if($document= Document::find($id)){}
-        else {
-            $document = Document::where('transaction_id', '=', $id)->paginate(10);
-        }
-        return view('document.documentview', ['document' => $document]);
+        $document= Document::find($id);
+        $additionals = Additional::where('document_id', '=', $id)->orderBy('created_at', 'desc');
+        return view('document.adddocument', ['document' => $document, 'additionals' => $additionals]);
+    }
+    public static function showstatic($id)
+    {
+        $document= Document::find($id);
+        $additionals = Additional::where('document_id', '=', $id)->orderBy('created_at', 'desc');
+        return $document;
     }
 
     /**

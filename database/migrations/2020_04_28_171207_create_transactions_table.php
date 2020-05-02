@@ -17,12 +17,14 @@ class CreateTransactionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('proforma_invoice_number');
             $table->integer('quantity');
-            $table->decimal('unit_price',8,2);
-            $table->decimal('total_price',8,2);
-            $table->enum('payment_terms', ['swift', 'ATGS', 'cheque']);
+            $table->decimal('unit_price',10,2);
+            $table->decimal('total_price',10,2);
+            $table->string('description');
+            $table->enum('payment_terms', ['swift', 'RTGS', 'cheque']);
             $table->integer('user_id');
             $table->integer('supplier_id');
             $table->enum('status', ['ordered', 'in transit', 'received']);
+            $table->integer('document_id');
             $table->timestamps();
         });
     }

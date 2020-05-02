@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <title>Laravel</title>
+        <title>Import Transaction System</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -76,9 +76,6 @@
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
                     @endauth
                 </div>
             @endif
@@ -92,9 +89,9 @@
                     @if (Route::has('login'))
                     <div>
                         @auth
-                            <a href="{{ url('/home') }}"><input type="button" class="btn-danger form-control" value="Get Started"></a>
+                            <a href="{{ url('/home') }}"><input type="button" class="btn-primary form-control" value="Get Started"></a>
                         @else
-                            <a href="{{ route('login') }}"><input type="button" class="btn-danger form-control" value="Get Started"></a>
+                            <a href="{{ route('login') }}"><input type="button" class="btn-primary form-control" value="Get Started"></a>
                         @endauth
                     </div>
                 @endif
