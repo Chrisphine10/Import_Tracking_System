@@ -40,14 +40,14 @@ class DocumentController extends Controller
 
 
         $request->validate([
-            'image'     =>  'required|image|mimes:jpeg,png,jpg,pdf|max:2048'
+            'image'     =>  'required|image|mimes:jpeg,png,jpg'
             
             ]);
 
 
+        $document = Document::findOrFail($request->id);
         if(isset($request->name)){
         $name = $request->name;
-        $document = Document::findOrFail($request->id);
             
         $path = Storage::putFile('public', $request->file('image'));
         $url = Storage::url($path);
@@ -59,9 +59,7 @@ class DocumentController extends Controller
         $additional->save();
         } 
         elseif(isset($request->document_name)) {
-            $name = $request->document_name;
-            $document = Document::findOrFail($request->id);
-            
+        $name = $request->document_name;         
         $path = Storage::putFile('public', $request->file('image'));
         $url = Storage::url($path);
         $document->$name = $url;
@@ -119,6 +117,26 @@ class DocumentController extends Controller
         $additionals = Additional::where('document_id', '=', $id)->orderBy('created_at', 'desc');
         return view('document.adddocument', ['document' => $document, 'additionals' => $additionals]);
     }
+
+    public static function download($id, $name)
+    {
+        $document= Document::find($id);
+        $path = $document->$name;
+
+        $download_link = asset($path);
+        return $download_link;
+    }
+
+    public static function adddownload($id, $name)
+    {
+        $additional = Additional::where('document_id', '=', $id)->where('name', '=', $name)->orderBy('created_at', 'desc');
+        if(isset($additional->document)){
+        $path = $additional->document;
+        $download_link = asset($path);
+        return $download_link;
+        }
+    }
+
     public static function showstatic($id)
     {
         $document= Document::find($id);

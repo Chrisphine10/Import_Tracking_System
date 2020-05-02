@@ -18,6 +18,12 @@ class SupplierController extends Controller
         return view('supplier.supplierlist', compact('suppliers'));
     }
 
+    public static function all()
+    {
+        $suppliers = Supplier::latest()->paginate(10);
+        return $suppliers;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

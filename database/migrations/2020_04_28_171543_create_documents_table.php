@@ -19,7 +19,7 @@ class CreateDocumentsTable extends Migration
             $table->string('idf')->nullable();
             $table->string('commercial_invoice')->nullable();
             $table->string('bill_of_landing')->nullable();
-            $table->string('clearing document')->nullable();
+            $table->string('clearing_document')->nullable();
             $table->timestamps();
         });
     }

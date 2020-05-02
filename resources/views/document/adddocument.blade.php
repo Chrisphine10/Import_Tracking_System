@@ -13,9 +13,8 @@
                             <label for="document_name" class="col-md-4 col-form-label text-md-right">document name</label>
                             <div class="col-md-6">
                 
-                                <select class="form-control" id="document_name" required name='document_name'>
+                                <select class="form-control" id="document_name" name='document_name'>
                                     <option value="">-select document name-</option>
-                                    <option value="proforma_invoice">Proforma Invoice</option>
                                     <option value="idf">IDF</option>
                                     <option value="commercial_invoice">Commercial Invoice</option>
                                     <option value="bill_of_landing">Bill of Landing</option>
@@ -29,7 +28,7 @@
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">document name</label>
                             <div class="col-md-6">
-                                <input type="text" required class="form-control" id="name" name='name' placeholder="enter document name">
+                                <input type="text" class="form-control" id="name" name='name' placeholder="enter document name">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -60,57 +59,75 @@
                         {{ session('status') }}
                     </div>
                     @endif 
+                    @php
+
+                    $download = App\Http\Controllers\DocumentController::download($document->id, 'proforma_invoice');
+                    $downloadidf = App\Http\Controllers\DocumentController::download($document->id, 'idf');
+                    $downloadcommercial_invoice = App\Http\Controllers\DocumentController::download($document->id, 'commercial_invoice');
+                    $downloadclearing_document = App\Http\Controllers\DocumentController::download($document->id, 'clearing_document');
+                    $downloadbill_of_landing = App\Http\Controllers\DocumentController::download($document->id, 'bill_of_landing');
                     
+                    @endphp
                     @if ($document->proforma_invoice)
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-4 col-md-10">
+                            <div style="margin-bottom: 20px" class="col-lg-4 col-md-10">
                                 <div class="card">
-                                    <img src="{{ $document->proforma_invoice }}" alt="proforma_invoice" height="300px">
+                                   
                                     <div class="card-body text-center">
-                                        <div class="card-title"><strong>Proforma Invoice</strong>
-                                            <br>
-                                            <form action="{{ route('documents.show', $document->id) }}" method="get">
-                                                @csrf
-                                                <button type="submit" class="btn btn-primary" style="margin-right: 1em;">View Document</button>
-                                            </form>
+                                        <div class="card-title">
+                                            <strong>Proforma Invoice</strong>
+                                            <a href="{{ $download }}" target="_blank">View</a>
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
-                        @endif @if($document->idf)
+                        @endif
+                        
+                        @if($document->idf)
 
-                        <div class="col-lg-4 col-md-10">
+                        <div style="margin-bottom: 20px" class="col-lg-4 col-md-10">
                             <div class="card">
-                                <img src="{{ $document->idf }}" alt="idf" height="300px">
-
+                               
                                 <div class="card-body text-center">
-                                    <div class="card-title"><strong>IDF</strong>
-                                        <br>
-                                        <form action="{{ route('documents.show', $document->id) }}" method="get">
-                                            @csrf
-                                            <button type="submit" class="btn btn-primary" style="margin-right: 1em;">View Document</button>
-                                        </form>
+                                    <div class="card-title">
+                                        <strong>IDF</strong>
+                                        <a href="{{ $downloadidf }}" target="_blank">View</a>
                                     </div>
                                 </div>
 
                             </div>
                         </div>
 
+                    @endif
 
-                    @endif @if($document->commercial_invoice)
+                    @if($document->bill_of_landing)
 
-                    <div class="col-lg-4 col-md-10">
+                    <div style="margin-bottom: 20px" class="col-lg-4 col-md-10">
                         <div class="card">
-                            <img src="{{ $document->commercial_invoice }}" alt="commercial_invoice" height="300px">
+                           
                             <div class="card-body text-center">
-                                <div class="card-title"><strong>Commercial Invoice</strong>
-                                    <br>
-                                    <form action="{{ route('documents.show', $document->id) }}" method="get">
-                                        @csrf
-                                        <button type="submit" class="btn btn-primary" style="margin-right: 1em;">View Document</button>
-                                    </form>
+                                <div class="card-title">
+                                    <strong>Bill of Landing</strong>
+                                    <a href="{{ $downloadbill_of_landing }}" target="_blank">View</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                @endif
+
+                    @if($document->commercial_invoice)
+
+                    <div style="margin-bottom: 20px" class="col-lg-4 col-md-10">
+                        <div class="card">
+                           
+                            <div class="card-body text-center">
+                                <div class="card-title">
+                                    <strong>Comm... Invoice</strong>
+                                    <a href="{{ $downloadcommercial_invoice }}" target="_blank">View</a>
                                 </div>
                             </div>
 
@@ -120,27 +137,22 @@
 
                 @endif @if($document->clearing_document)
 
-                <div class="col-lg-4 col-md-10">
+                <div style="margin-bottom: 20px" class="col-lg-4 col-md-10">
                     <div class="card">
-                        <img src="{{ $document->clearing_document }}" alt="clearing_document" height="300px">
-
+                       
                         <div class="card-body text-center">
-                            <div class="card-title"><strong>Clearing Document</strong>
-                                <br>
-                                <form action="{{ route('documents.show', $document->id) }}" method="get">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary" style="margin-right: 1em;">View Document</button>
-                                </form>
+                            <div class="card-title">
+                                <strong>Clearing Doc...</strong>
+                                <a href="{{ $downloadclearing_document }}" target="_blank">View</a>
                             </div>
                         </div>
 
                     </div>
                 </div>
-
             @endif
             @if($document->additional_document)
 
-            <div class="col-lg-4 col-md-10">
+            <div style="margin-bottom: 20px" class="col-lg-4 col-md-10">
                 <div class="card">
                     <img src="{{ $document->additional_document }}" alt="additional_document" height="300px">
                     <div class="card-body text-center">

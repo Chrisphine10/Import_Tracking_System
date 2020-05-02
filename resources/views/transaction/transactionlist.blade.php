@@ -28,17 +28,17 @@
                     <table class="table table-condenced">
                         <thead>
                             <tr>
-                                <th>id</th>
-                                <th>proforma_invoice_no</th>
-                                <th>quantity</th>
-                                <th>unit_price</th>
-                                <th>total_price</th>
-                                <th>payment_terms</th>
-                                <th>added_by</th>
-                                <th>supplier</th>
-                                <th>status</th>
-                                <th>details</th>
-                                <th>created_at</th>
+                                <th>@sortablelink('id')</th>
+                                <th>@sortablelink('proforma_invoice_number')</th>
+                                <th>@sortablelink('quantity')</th>
+                                <th>@sortablelink('unit_price')</th>
+                                <th>@sortablelink('total_price')</th>
+                                <th>@sortablelink('payment_terms')</th>
+                                <th>@sortablelink('added_by')</th>
+                                <th>@sortablelink('supplier')</th>
+                                <th>@sortablelink('status')</th>
+                                <th>@sortablelink('details')</th>
+                                <th>@sortablelink('created_at')</th>
                                 <th>documents</th>
                                 
 
@@ -51,8 +51,10 @@
                                     <td>
                                     @php
                                     $document = App\Http\Controllers\DocumentController::showstatic($transaction->document_id);
+
+                                    $download = App\Http\Controllers\DocumentController::download($transaction->document_id, 'proforma_invoice');
                                     @endphp
-                                    <a href="{{ route('documents.show',  $document->id)}}"> {{ $transaction->proforma_invoice_number }}</a>
+                                    <a href="{{ $download }}" target="_blank"> {{ $transaction->proforma_invoice_number }}</a>
                                     </td>
                                     <td>{{$transaction->quantity}}</td>
                                     <td>{{$transaction->unit_price}}</td>
