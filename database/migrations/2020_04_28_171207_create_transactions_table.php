@@ -15,13 +15,14 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('proforma_invoice_number');
+            $table->string('proforma_invoice_number')->unique();
             $table->integer('quantity');
             $table->decimal('unit_price',10,2);
             $table->decimal('total_price',10,2);
             $table->string('description');
             $table->enum('payment_terms', ['swift', 'RTGS', 'cheque']);
             $table->integer('user_id');
+            $table->date('date');
             $table->integer('supplier_id');
             $table->enum('status', ['ordered', 'in transit', 'received']);
             $table->integer('document_id');

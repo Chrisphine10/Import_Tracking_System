@@ -33,12 +33,18 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="title" class="col-md-4 col-form-label text-md-right">payment terms</label>
+                            <label for="payment_terms" class="col-md-4 col-form-label text-md-right">payment terms</label>
                             <div class="col-md-6">
-                                <input type="text" required class="form-control" id="payment_terms" name='payment_terms' value={{ $transaction->payment_terms}}>
+
+                                <select class="form-control" id="payment_terms" required name='payment_terms'>
+                                    <option value="">-select payment method-</option>
+                                    <option value="cheque">cheque</option>
+                                    <option value="swift">swift</option>
+                                    <option value="RTGS">RTGS</option>
+
+                                </select>
                             </div>
                         </div>
-
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

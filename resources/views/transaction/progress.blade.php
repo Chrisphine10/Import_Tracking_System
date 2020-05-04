@@ -14,9 +14,9 @@
                         </div>
                     @endif
 
-                    <a href="{{ route('suppliers.show', 1)}}" class="btn btn-primary">Supplier</a>
+                    <a href="{{ route('suppliers.show', $supplier->id)}}" class="btn btn-primary">Supplier</a>
                     <a href="{{ route('transactions.show', $transaction->id) }}" class="btn btn-primary">Transaction Details</a>
-                    <a href="{{ route('documents.show', $transaction->id) }}" class="btn btn-primary">Transaction Documents</a>
+                    <a href="{{ route('documents.show', $transaction->document_id) }}" class="btn btn-primary">Transaction Documents</a>
                     <a href="{{ route('transactions.index')}}" class="btn btn-primary">Confirm Clearance</a>
                 </div>
             </div>

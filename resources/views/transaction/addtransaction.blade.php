@@ -6,15 +6,22 @@
 </style>
 
 <script>
-
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
-
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
-</script>
+    
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+    
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+    function openForm1() {
+      document.getElementById("myForm1").style.display = "block";
+    }
+    
+    function closeForm1() {
+      document.getElementById("myForm1").style.display = "none";
+    }
+    </script>
 
 @extends('layouts.app')
 
@@ -27,11 +34,17 @@ function closeForm() {
 
                 <div class="card-body">   
                     <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                    <button style="margin-bottom:30px;" class="form-control" onclick="openForm()">Add Supplier</button>
+                        
+                        <div id="myForm1" class="col-md-6 offset-md-4">
+                    <button style="margin-bottom:30px;" class="form-control" onclick="openForm(), closeForm1()">Add Supplier</button>
                         </div>
                     </div>
                     <div class="form-popup" id="myForm" style="display:none;">
+                        <div class="form-group row">
+                            <div class="col-md-8 col-form-label text-md-right">
+                        <label>Enter Supplier Details</label>
+                            </div>
+                        </div>
                         <form method="POST" action="{{ route('suppliers.store') }}" class="form-container">
                             @csrf
                     <div class="form-group row">
@@ -57,11 +70,11 @@ function closeForm() {
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">
                     <button type="submit" style="margin-bottom:10px;" class="form-control btn-warning">Add Supplier</button>
-                    <button type="submit" class="form-control btn-warning" onclick="closeForm()">Close</button>
+                        </form>
+                    <button type="submit" class="form-control btn-danger" onclick="openForm1(), closeForm()">Close</button>
                         </div>
                     </div>
-                </form>
-            </div>
+                 </div>
 
 
                             <form style="margin-top:30px; margin-bottom:30px;" method="POST" action="{{ route('transactions.store') }}" enctype="multipart/form-data">
@@ -71,7 +84,7 @@ function closeForm() {
                                     <label for="supplier" class="col-md-4 col-form-label text-md-right">Supplier</label>
                                     <div class="col-md-6">
         
-                                        <select onclick="closeForm()" class="form-control" id="supplier" required name='payment_terms'>
+                                        <select onclick="closeForm()" class="form-control" id="supplier_id" required name='supplier_id'>
                                             <option value="">-select supplier-</option>
                                             @php
                                                  $suppliers = App\Http\Controllers\SupplierController::all();

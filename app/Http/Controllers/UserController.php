@@ -14,9 +14,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->authorize('create', User::class);
+       $this->authorize('create', User::class);
+        //if(\Auth::user()->role == 'admin') {
         $users = User::latest()->paginate(10);
         return view('user.userlist', compact('users'));
+        //}
     }
 
     
@@ -47,7 +49,7 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
         $user = User::findOrFail($id);
-        return view('user.edituser', compact('users'));
+        return view('user.edituser', compact('user'));
     }
 
     /**
@@ -61,11 +63,17 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
         $user = User::findOrFail($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->role = $request->role;
-        $user->save();
+        if(isset($request->role)){
+            $user->role = $request->role;
+            $user->save();
+        } else {
+            $user->fname = $request->fname;
+            $user->lname = $request->lname;
+            $user->email = $request->email;
+           
+            $user->save();
+        }
+                
         return redirect('/users')->with('success', 'user updated!');
     }
 

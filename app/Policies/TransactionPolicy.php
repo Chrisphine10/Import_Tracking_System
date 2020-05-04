@@ -19,7 +19,7 @@ class TransactionPolicy
     public function viewAny(User $user)
     {
         return in_array($user->role, [
-            'manager',
+            'manager', 'admin',
         ]);
     }
     
@@ -44,7 +44,7 @@ class TransactionPolicy
     public function create(User $user)
     {
         return in_array($user->role, [
-            'user',
+            'user', 'admin', 'manager'
         ]);
     }
 

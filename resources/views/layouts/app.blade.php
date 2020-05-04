@@ -26,14 +26,23 @@
                 <a class="navbar-brand" href="{{ url('/transactions') }}">
                     {{ config('app.name', 'Import Tracking System') }}
                 </a>
+                              
+               
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li>
+                        @guest
+                                
+                        @else
+                        @can('create', App\User::class)
+                        <a style="margin:2px;" href="{{ route('home')}}" class="btn btn-success">Admin Dashboard</a>
+                        @endcan
+                        @endguest    
+                    </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -47,7 +56,7 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                  {{ Auth::user()->role }} : {{ Auth::user()->name }} <span class="caret"></span>
+                                  {{ Auth::user()->role }} : {{ Auth::user()->fname }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -76,11 +85,14 @@
         <a style="margin:2px;" href="{{ route('transactions.create')}}" class="btn btn-success">Add Transaction</a>
     </li>
     <li>
-        <a style="margin:2px;" href="{{ route('transactions.create')}}" class="btn btn-success">Print</a>
+        <a style="margin:2px;" href="{{ route('suppliers.index')}}" class="btn btn-success">Suppliers</a>
     </li>
+    @can('viewAny', App\Transaction::class)
     <li>
-        <a style="margin:2px;" href="{{ route('filters.index')}}" class="btn btn-success">Filter</a>
+        <a style="margin:2px;" href="{{ route('filters.index')}}" class="btn btn-success">Transaction Reports</a>
     </li>
+    @endcan
+    
 
 </ul>
             

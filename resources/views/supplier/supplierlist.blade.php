@@ -11,9 +11,8 @@
         <div class="col-md-14">
             <div class="card">
                 <div class="card-header">{{ __('Suppliers List') }}
-                    <div style="text-align: center">
-                        <a href="{{ route('suppliers.create')}}" class="btn btn-primary">New Supplier</a>
-                        </div>
+                        <a style="margin-left: 20%;" href="{{ route('suppliers.create')}}" class="btn btn-primary">New Supplier</a>
+                      
                 </div>
                 <div class="card-body">
                     <div class="col-sm-12">
@@ -52,12 +51,16 @@
                                     </td>
                                 </tr>
                                 @endforeach
+
                             </tbody>
+                            
                     </table>
 
                 </div>
             </div>
+            {{ $suppliers->links() }}
         </div>
     </div>
 </div>
+
 @endsection

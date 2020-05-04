@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Document;
 use App\Additional;
+use App\Transaction;
 use Storage;
 use Illuminate\Http\Request;
 
@@ -40,7 +41,8 @@ class DocumentController extends Controller
 
 
         $request->validate([
-            'image'     =>  'required|image|mimes:jpeg,png,jpg'
+            'image'     =>  'required|image|mimes:jpeg,png,jpg',
+            "image" => "required|mimes:pdf|max:10000"
             
             ]);
 
@@ -59,12 +61,18 @@ class DocumentController extends Controller
         $additional->save();
         } 
         elseif(isset($request->document_name)) {
-        $name = $request->document_name;         
+        $name = $request->document_name;  
+        if ($name == "clearing_document") {
+            $transaction = Transaction::where('document_id', '=', $document->id)->orderBy('created_at', 'desc');
+            $transaction->status = "received";
+            $transaction->save();
+        }       
         $path = Storage::putFile('public', $request->file('image'));
         $url = Storage::url($path);
         $document->$name = $url;
         $document->save();
         } 
+    
         // elseif(isset($request->document_name)) {
         // $name = $request->document_name;
 
@@ -101,7 +109,7 @@ class DocumentController extends Controller
         //return redirect('/documents')->with('success', 'documents saved!');
 
         return redirect()->action(
-            'TransactionController@index'
+            'DocumentController@show', $request->id
         )->with('success', 'document saved!');
     }
 

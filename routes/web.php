@@ -24,8 +24,9 @@ Route::resource('progresses', 'ProgressController')->middleware('auth');
 
 Route::resource('filters', 'FilterController')->middleware('auth');
 
-//Route::resource('transactions', 'TransactionController');
 Route::resource('transactions', 'TransactionController')->middleware('auth');
+
+Route::get('dateFilter', 'TransactionController@index2');
 
 Route::resource('suppliers', 'SupplierController')->middleware('auth');
 
