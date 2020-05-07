@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Chart;
+use App\User;
 use App\Transaction;
 use Illuminate\Http\Request;
 
@@ -15,39 +16,104 @@ class ChartController extends Controller
      */
     public function index()
     {
-        /*
-        $stocksTable = \Lava::DataTable();
 
-$stocksTable->addDateColumn('Day of Month')
-            ->addNumberColumn('Projected')
-            ->addNumberColumn('Official');
+      $transactions = Transaction::all();
 
-// Random Data For Example
-for ($a = 1; $a < 30; $a++) {
-    $stocksTable->addRow([
-      '2015-10-' . $a, rand(800,1000), rand(800,1000)
+      $transact  = \Lava::DataTable();
+     /* $formatter  = \Lava::DateFormat([
+          'pattern' => 'y-m-d',
+      ]);
+*/
+      
+
+      //$transact->addDateColumn('Date', $formatter)
+      $transact->addStringColumn('month')
+      ->addNumberColumn('Price');
+
+
+      foreach($transactions as $transaction)
+{
+      $date = $transaction->date;
+      $monthNum  = date('m', strtotime($date));
+      $dateObj   = \DateTime::createFromFormat('!m', $monthNum);
+      $monthName = $dateObj->format('F');
+      $date = $transaction->date;
+          $transact->addRow([
+            $monthName, (int) $transaction->total_price //$transaction->proforma_invoice_number
+          ]);
+          
+     
+  }
+/*
+  $allusers = User::all();
+  
+
+$user  = \Lava::DataTable();
+$user->addStringColumn('month');
+foreach($allusers as $alluser){
+
+    $user->addNumberColumn($alluser->fname);
+}
+//$months = array("Jan","Feb","Mar","Apr","May","Jun","Jul","Agu","Sep","Oct","Nov","Dec");
+
+
+//foreach ($months as $month) {
+  
+foreach($allusers as $alluser){
+
+    $usertrans = Transaction::where('user_id', '=', $alluser->id)->get();
+    $count = count($usertrans);
+    foreach ($usertrans as $usertran) {
+$date = $usertran->date;
+$monthNum  = date('m', strtotime($date));
+$dateObj   = \DateTime::createFromFormat('!m', $monthNum);
+$monthName = $dateObj->format('F');
+        $user->addRow([
+            $monthName, $count
+         ]);
+    }
+
+}
+$usertrans = Transaction::join('users', 'transactions.user_id', 'users.id')->get();
+$user  = \Lava::DataTable();
+$user->addStringColumn('month')
+    ->addNumberColumn('user');
+
+foreach($usertrans as $usertran){
+    $date = $usertran->date;
+    $monthNum  = date('m', strtotime($date));
+    $dateObj   = \DateTime::createFromFormat('!m', $monthNum);
+    $monthName = $dateObj->format('F');
+    return $usertrans;
+    $user->addRow([
+    $monthName, $usertran->fname
     ]);
 }
+*/
+    $allusers = User::all();
+    $user  = \Lava::DataTable();
+    $user->addStringColumn('User')
+        ->addNumberColumn('Transactions');
 
-        $chart = \Lava::LineChart('Day of Month', $stocksTable);
+    foreach($allusers as $alluser)
+    {
+        $usertrans = Transaction::where('user_id', '=', $alluser->id)->get();
+        $count = count($usertrans);
 
-        //return view('filter', compact('chart'));
-       // return $stocksTable;
-       return $chart; */
-       $votes  = \Lava::DataTable();
+        $user->addRow([
+            $alluser->fname, $count
+         ]);
+    }
 
-$votes->addStringColumn('Food Poll')
-      ->addNumberColumn('Votes')
-      ->addRow(['Tacos',  rand(1000,5000)])
-      ->addRow(['Salad',  rand(1000,5000)])
-      ->addRow(['Pizza',  rand(1000,5000)])
-      ->addRow(['Apples', rand(1000,5000)])
-      ->addRow(['Fish',   rand(1000,5000)]);
+      
+            $tran = \Lava::AreaChart('Transactions', $transact);
+            $userbar = \Lava::ScatterChart('Votes', $user);
+     // return view('filter', compact(['tran']));
 
-      $lava = \Lava::BarChart('Votes', $votes);
+return view('filter', compact(['tran']), compact(['userbar'])); // I add these line
 
-return view('filter', compact(['lava'])); // I add these line
-//return compact(['lava']);
+//return $monthName;
+
     }
 
     /**
@@ -68,26 +134,8 @@ return view('filter', compact(['lava'])); // I add these line
      */
     public function store(Request $request)
     {
-        $transactions = Transaction::findOrFail('$id');
-
-        $transactions  = \Lava::DataTable();
-
-        $transactions->addDateColumn('Date')
-        ->addNumberColumn('Price')
-        ->addNumberColumn('Payment');
-
-        foreach($transactions as $transaction)
-{
-        for ($a = 1; $a < 30; $a++) {
-            $transactions->addRow([
-              '2020-5-' . $a, $transaction->total_price, $transaction->payment_terms
-            ]);
-        }
-    }
         
-              $tran = \Lava::BarChart('Transactions', $transactions);
-        
-        return view('filter', compact(['tran']));
+        //return $transactions;
     }
 
     /**

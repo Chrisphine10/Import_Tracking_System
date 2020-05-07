@@ -14,13 +14,13 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::latest()->paginate(10);
+        $suppliers = Supplier::sortable()->paginate(15);
         return view('supplier.supplierlist', compact('suppliers'));
     }
 
     public static function all()
     {
-        $suppliers = Supplier::latest()->paginate(10);
+        $suppliers = Supplier::all();
         return $suppliers;
     }
 

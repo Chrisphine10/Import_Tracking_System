@@ -128,13 +128,7 @@ table th {
                                     <td>
                                         <a href="{{ route('documents.show',  $transaction->document_id)}}"> view documents</a>
                                     </td>
-                                    <td>
-                                        <form style="margin-top:30px; margin-bottom:30px;" method="POST" action="{{ route('charts.store') }}" enctype="multipart/form-data">
-                                            @csrf
-                                        <input type="submit" value="{{ $transaction->id }}" name="type" id="type" class="btn btn-primary">
-                                        </form>
-                            
-                                    </td>
+                                  
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -144,7 +138,7 @@ table th {
 
                 </div>
             </div>
-            {{ $transactions->links() }}
+            {!! $transactions->appends(\Request::except('page'))->render() !!}
         </div>
     </div>
 </div>

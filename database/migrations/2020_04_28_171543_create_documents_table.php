@@ -20,6 +20,7 @@ class CreateDocumentsTable extends Migration
             $table->string('commercial_invoice')->nullable();
             $table->string('bill_of_landing')->nullable();
             $table->string('clearing_document')->nullable();
+            //$table->integer('transaction_id')->nullable();
             $table->timestamps();
         });
     }

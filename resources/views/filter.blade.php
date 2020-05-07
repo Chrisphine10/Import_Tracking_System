@@ -26,9 +26,9 @@
                     </form>
 
                   
-                    @if(Lava::exists('BarChart', 'Votes'))
+                    @if(Lava::exists('ScatterChart', 'Votes'))
                     <div id="trans">
-                        {!! \Lava::render('BarChart', 'Votes', 'trans') !!}
+                        {!! \Lava::render('ScatterChart', 'Votes', 'trans') !!}
                     </div>
                     @else
                         <p>Chart not found!</p>
@@ -36,9 +36,9 @@
 
             
 
-                    @if(Lava::exists('BarChart', 'Transactions'))
+                    @if(Lava::exists('AreaChart', 'Transactions'))
                     <div id="transact">
-                        {!! \Lava::render('BarChart', 'Transactions', 'transact') !!}
+                        {!! \Lava::render('AreaChart', 'Transactions', 'transact') !!}
                     </div>
                     @else
                         <p>Chart not found!</p>

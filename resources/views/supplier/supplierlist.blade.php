@@ -27,10 +27,10 @@
                     <table class="table table-condenced">
                         <thead>
                             <tr>
-                                <th>id</th>
-                                <th>name</th>
-                                <th>email</th>
-                                <th>phone number</th>
+                                <th>@sortablelink('id', 'id')</th>
+                                <th>@sortablelink('name', 'name')</th>
+                                <th>@sortablelink('email','email')</th>
+                                <th>@sortablelink('phone', 'phone number')</th>
                             </tr>
                             <thead>
                             <tbody>
@@ -58,7 +58,7 @@
 
                 </div>
             </div>
-            {{ $suppliers->links() }}
+            {!!$suppliers->appends(\Request::except('page'))->render() !!}
         </div>
     </div>
 </div>

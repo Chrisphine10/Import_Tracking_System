@@ -16,7 +16,7 @@ class UserController extends Controller
     {
        $this->authorize('create', User::class);
         //if(\Auth::user()->role == 'admin') {
-        $users = User::latest()->paginate(10);
+        $users = User::sortable()->paginate(15);
         return view('user.userlist', compact('users'));
         //}
     }

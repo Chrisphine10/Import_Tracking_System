@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Transaction;
 use App\Document;
+use App\Supplier;
 use Carbon\Carbon;
 use App\User;
 use Storage;
@@ -19,7 +20,7 @@ class TransactionController extends Controller
     public function index()
     {
         
-        $transactions = Transaction::sortable()->paginate(15);
+        $transactions = Transaction::sortable()->paginate(13);
         return view('transaction.transactionlist', compact('transactions'));
 
     }
@@ -51,15 +52,22 @@ public function search(Request $request){
     //->orWhere('lname','LIKE','%'.$request->search."%")->get();
  
  $search = $request->search;
-    $transactions = Transaction::where('payment_terms','LIKE','%'.$request->search."%")
+    $transactions = Transaction::join('users', 'transactions.user_id', 'users.id')
+    ->join('suppliers', 'transactions.supplier_id', 'suppliers.id')
+    ->where('payment_terms','LIKE','%'.$request->search."%")
     ->orWhere('description','LIKE','%'.$request->search."%")
+    ->orWhere('status','LIKE','%'.$request->search."%")
     ->orWhere('proforma_invoice_number','LIKE','%'.$request->search."%")
-    ->join('users', 'transactions.user_id', 'users.id')
     ->orWhere('users.fname','LIKE','%'.$request->search."%")
     ->orWhere('users.lname','LIKE','%'.$request->search."%")
-    ->sortable()->paginate(15);
+    ->orWhere('suppliers.name','LIKE','%'.$request->search."%")
+    ->sortable()
+    ->paginate(13);
+
     return view('transaction.transactionlist', compact('transactions'));
-   
+
+    //return view('transaction.transactionlist', compact('transactions', 'links'));
+   //$links = $transactions ->appends(['sort' => 'id'])->links();
     
    // return $users;
 }

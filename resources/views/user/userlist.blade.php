@@ -26,11 +26,12 @@
                     <table class="table table-condenced">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Current Role</th>
+                                <th>Status</th>
+                                <th>@sortablelink('id', 'ID')</th>
+                                <th>@sortablelink('fname', 'First Name')</th>
+                                <th>@sortablelink('lname', 'Last Name')</th>
+                                <th>@sortablelink('email', 'Email')</th>
+                                <th>@sortablelink('role', 'Current Role')</th>
                                 <th>Change Role</th>
                                 <th>Edit</th>
                             </tr>
@@ -38,6 +39,11 @@
                             <tbody>
                                 @foreach($users as $user)
                                 <tr>
+                                    @if($user->isOnline())
+                                    <td>online</td>
+                                    @else
+                                     <td>offline</td>
+                                    @endif
                                     <td>{{$user->id}}</td>
                                     <td>{{$user->fname}}</td>
                                     <td>{{$user->lname}}</td>
