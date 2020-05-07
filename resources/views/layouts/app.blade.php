@@ -43,6 +43,8 @@
                         @endcan
                         @endguest    
                     </li>
+
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -54,6 +56,7 @@
                             </li>
                            
                         @else
+                        
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                   {{ Auth::user()->role }} : {{ Auth::user()->fname }} <span class="caret"></span>
@@ -71,6 +74,7 @@
                                     </form>
                                 </div>
                             </li>
+
                         @endguest
                     </ul>
                 </div>
@@ -79,6 +83,7 @@
         @guest
         @else
         <nav class="navbar navbar-expand-md">
+
             <div class="container">
 <ul class="navbar-nav mr-auto">
     <li>
@@ -91,16 +96,49 @@
     <li>
         <a style="margin:2px;" href="{{ route('filters.index')}}" class="btn btn-success">Transaction Reports</a>
     </li>
+
     @endcan
     
+        <li>
+            <form action="{{ url('/dateFilter') }}" method="get" enctype="multipart/form-data">
+                @csrf
+                <ul class="navbar-nav">
+               <li><label for="start">From:</label></li>
+               <li> <input class="form-control" required type="date" name="start" id="start"></li>
+               <li> <label for="stop">To:</label></li>
+               <li> <input class="form-control" required type="date" name="stop" id="stop"></li>
+               <li> <input class="btn btn-primary" type="submit" name="submit" value="Filter" id="submit">
+               </li>
+           </ul>
+            
+           </form>
+       </li>
+       <li>
 
+        <form action="{{ url('/searches') }}" method="GET" class="navbar-form navbar-left" role="search">
+            @csrf
+                <ul class="navbar-nav mr-auto">
+                    <li>
+              <input class="form-control" type="search" name="search" id="search">
+          </li><li>
+              <button type="submit" class="btn btn-warning">Search</button>
+              </li>
+                </ul>
+              </form> 
+        
+        </li>
+            
+  
 </ul>
             
             
             
        
             </div>
+
          </nav>
+         
+       
          @endguest
 
         <main class="py-4">

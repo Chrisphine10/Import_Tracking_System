@@ -12,11 +12,13 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "khill/lavacharts": "3.1.*",
         "kyslik/column-sortable": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/scout": "^8.0",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0"
+        "laravel/ui": "^2.0",
+        "symfony/symfony": "^5.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

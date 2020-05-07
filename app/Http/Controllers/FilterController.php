@@ -9,4 +9,7 @@ class FilterController extends Controller
     public function index(){
         return view('filter');
     }
+
+    public function chart(Request $request){
+    }
 }

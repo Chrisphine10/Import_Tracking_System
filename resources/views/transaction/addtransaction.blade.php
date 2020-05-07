@@ -137,7 +137,15 @@
                                     </div>
                                 </div>
 
-        
+                                <div class="form-group row">
+                                    <label for="date" class="col-md-4 col-form-label text-md-right">date</label>
+                                    <div class="col-md-6">
+                                        <input class="form-control" required type="date" name="date" value="" id="date">
+                                    </div>
+                                </div>
+
+
+                                
                                 <div class="form-group row">
                                     <label for="name" class="col-md-4 col-form-label text-md-right"></label>
                                     <label class="col-md-6">Document Upload</label>

@@ -26,7 +26,11 @@ Route::resource('filters', 'FilterController')->middleware('auth');
 
 Route::resource('transactions', 'TransactionController')->middleware('auth');
 
-Route::get('dateFilter', 'TransactionController@index2');
+Route::get('searches', 'TransactionController@search')->middleware('auth');
+
+Route::resource('charts', 'ChartController')->middleware('auth');
+
+Route::get('dateFilter', 'TransactionController@index2')->middleware('auth');
 
 Route::resource('suppliers', 'SupplierController')->middleware('auth');
 

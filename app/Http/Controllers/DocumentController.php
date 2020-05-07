@@ -51,13 +51,12 @@ class DocumentController extends Controller
         if(isset($request->name)){
         $name = $request->name;
             
-        $path = Storage::putFile('public', $request->file('image'));
-        $url = Storage::url($path);
-
         $additional = new Additional();
         $additional->document_id = $request->id;
+        $path = Storage::putFile('public', $request->file('image'));
+        $url = Storage::url($path);
         $additional->document = $url;
-        $additional->document_name = $name;
+        $additional->name = $name;
         $additional->save();
         } 
         elseif(isset($request->document_name)) {

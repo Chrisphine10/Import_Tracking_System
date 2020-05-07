@@ -37,7 +37,7 @@
                             <div class="col-md-6">
 
                                 <select class="form-control" id="payment_terms" required name='payment_terms'>
-                                    <option value="">-select payment method-</option>
+                                    <option value={{ $transaction->payment_terms }}>-select payment method-</option>
                                     <option value="cheque">cheque</option>
                                     <option value="swift">swift</option>
                                     <option value="RTGS">RTGS</option>
@@ -45,6 +45,16 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="date" class="col-md-4 col-form-label text-md-right">date</label>
+                            <div class="col-md-6">
+                                <input class="form-control" required type="date" name="date" value={{ $transaction->date }} id="date">
+                            </div>
+                        </div>
+
+
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

@@ -41,10 +41,7 @@ class RegisterController extends Controller
         $this->middleware('auth');
     }
 
-    public function __construct1()
-    {
-        $this->authorize('create', User::class);
-    }
+
     /**
      * Get a validator for an incoming registration request.
      *

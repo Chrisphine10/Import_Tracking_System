@@ -127,6 +127,8 @@
                     $downloadclearing_document = App\Http\Controllers\DocumentController::download($document->id, 'clearing_document');
                     $downloadbill_of_landing = App\Http\Controllers\DocumentController::download($document->id, 'bill_of_landing');
                     
+                    $downloadadd = App\Http\Controllers\DocumentController::adddownload($document->id, 'proforma_invoice');
+
                     @endphp
                     @if ($document->proforma_invoice)
                     <div class="container">

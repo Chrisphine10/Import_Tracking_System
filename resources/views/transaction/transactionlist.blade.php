@@ -44,39 +44,14 @@ table th {
    </script>
  @can('create', App\Transaction::class)
  @endcan
- <div class="form-group row" style="">
-     
-    <div class="" style="margin-left: 15%; margin-right: 2%;">
-    <label>Date Filter</label>
-    </div>
- <form action="{{ url('/dateFilter') }}" method="get" enctype="multipart/form-data">
-     @csrf
-    <label for="start">From:</label>
-     <input class="form-control" required type="date" name="start" value="" id="start">
 
- <div class="" style="margin: 0%">
-    <label for="stop">To:</label>
-     <input class="form-control" type="date" name="stop" id="stop" value="">
- </div>
- <div class="" style="margin-top: 32px">
-     <input class="btn btn-primary" type="submit" name="submit" value="Filter" id="submit">
- </div>
-</form> 
-     <div class="" style="margin-left: 20%; padding:0%;">
-   <form class="navbar-form navbar-left" role="search">
-     <input class="form-control" type="search" name="search" id="search">
-   </div>
-     <div class="" style="border-radius:0px; margin: 0%; padding:0%;">
-     <button type="submit" class="btn btn-warning">Search</button>
-     </div>
-     </form> 
-     </div>
-     
+
+ 
 
 <div class="container">
         <div class="row justify-content-center">
         <div class="col-md-14">
-            
+
                <div class="card">
                 <div class="card-header">{{ __('Transactions List') }}
                     <button style="margin:2px;" onclick="printContent('print')">Print</button> 
@@ -104,7 +79,7 @@ table th {
                                 <th>@sortablelink('payment_terms', "payment")</th>
                                 <th>@sortablelink('supplier_id', "supplier")</th>
                                 <th>@sortablelink('status', "status")</th>
-                                <th>@sortablelink('created_at', "date")</th>
+                                <th>@sortablelink('date', "date")</th>
                                 <th>@sortablelink('added_by', "added by")</th>
                                 <th>details</th>
                                 <th>documents</th>
@@ -138,7 +113,7 @@ table th {
                                     <td>{{$transaction->status}}</td>
                                  
                                     <td>
-                                        {{$transaction->created_at->format('m-d-y')}}
+                                        {{$transaction->date}}
                                     </td>
                                     <td>
                                         @php
@@ -152,6 +127,13 @@ table th {
                                     </td>
                                     <td>
                                         <a href="{{ route('documents.show',  $transaction->document_id)}}"> view documents</a>
+                                    </td>
+                                    <td>
+                                        <form style="margin-top:30px; margin-bottom:30px;" method="POST" action="{{ route('charts.store') }}" enctype="multipart/form-data">
+                                            @csrf
+                                        <input type="submit" value="{{ $transaction->id }}" name="type" id="type" class="btn btn-primary">
+                                        </form>
+                            
                                     </td>
                                 </tr>
                                 @endforeach
