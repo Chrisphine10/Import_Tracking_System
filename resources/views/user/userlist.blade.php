@@ -11,11 +11,11 @@
         <div class="col-md-14">
             <div class="card">
                 <div class="card-header">{{ __('Users List') }}
+                    <a style="margin-left: 20%;" onclick="online()" class="btn btn-primary">Online</a>
                     <a style="margin-left: 20%;" href="{{ route('register')}}" class="btn btn-primary">New User</a>
                 </div>
                 <div class="card-body">
                     <div class="col-sm-12">
-
                         @if(session()->get('success'))
                         <div class="alert alert-success">
                             {{ session()->get('success') }}
@@ -74,12 +74,15 @@
                                 </tr>
                                 @endforeach
                             </tbody>
+
+
+                            
                     </table>
 
                 </div>
 
             </div>
-            {{ $users->links() }}
+            {!! $users->appends(\Request::except('page'))->render() !!}
         </div>
     </div>
 </div>

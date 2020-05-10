@@ -24,6 +24,20 @@ class SupplierController extends Controller
         return $suppliers;
     }
 
+    public function search(Request $request){
+        // $users = User::where('fname','LIKE','%'.$request->search."%")
+         //->orWhere('lname','LIKE','%'.$request->search."%")->get();
+      
+      $search = $request->search;
+         $suppliers = Supplier::where('name','LIKE','%'.$request->search."%")
+         ->orWhere('email','LIKE','%'.$request->search."%")
+         ->orWhere('phone','LIKE','%'.$request->search."%")
+         ->sortable()
+         ->paginate(13);
+     
+         return view('supplier.supplierlist', compact('suppliers'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

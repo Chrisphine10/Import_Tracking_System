@@ -28,6 +28,10 @@ Route::resource('transactions', 'TransactionController')->middleware('auth');
 
 Route::get('searches', 'TransactionController@search')->middleware('auth');
 
+Route::get('suppliersearch', 'SupplierController@search')->middleware('auth');
+
+Route::get('usersearch', 'UserController@search')->middleware('auth');
+
 Route::resource('charts', 'ChartController')->middleware('auth');
 
 Route::get('dateFilter', 'TransactionController@index2')->middleware('auth');

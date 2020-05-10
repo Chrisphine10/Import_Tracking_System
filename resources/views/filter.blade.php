@@ -22,29 +22,32 @@
                     @endif
                     <form style="margin-top:30px; margin-bottom:30px;" method="GET" action="{{ route('charts.index')}}" enctype="multipart/form-data">
                         @csrf
-                    <input type="submit" name="type" id="type" class="btn btn-primary">
+                    <input type="submit" name="type" value="Current Report" id="type" class="btn btn-primary">
                     </form>
 
-                  
-                    @if(Lava::exists('ScatterChart', 'Votes'))
-                    <div id="trans">
-                        {!! \Lava::render('ScatterChart', 'Votes', 'trans') !!}
-                    </div>
-                    @else
-                        <p>Chart not found!</p>
-                    @endif
-
-            
-
+                 <div class="card" style="margin-bottom: 20px;">
                     @if(Lava::exists('AreaChart', 'Transactions'))
                     <div id="transact">
                         {!! \Lava::render('AreaChart', 'Transactions', 'transact') !!}
                     </div>
-                    @else
-                        <p>Chart not found!</p>
                     @endif
-                      
-                    
+                </div>        
+               
+                <div class="card" style="margin-bottom: 20px;">
+                    @if(Lava::exists('AreaChart', 'Supplier'))
+                    <div id="supplier">
+                        {!! \Lava::render('AreaChart', 'Supplier', 'supplier') !!}
+                    </div>
+                    @endif
+                </div>
+
+                <div class="card" style="margin-bottom: 20px;">    
+                    @if(Lava::exists('AreaChart', 'User'))
+                    <div id="trans">
+                        {!! \Lava::render('AreaChart', 'User', 'trans') !!}
+                    </div>
+                    @endif
+                </div>
                     
 
                 </div>

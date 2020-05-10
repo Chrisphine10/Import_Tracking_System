@@ -52,15 +52,15 @@ public function search(Request $request){
     //->orWhere('lname','LIKE','%'.$request->search."%")->get();
  
  $search = $request->search;
-    $transactions = Transaction::join('users', 'transactions.user_id', 'users.id')
-    ->join('suppliers', 'transactions.supplier_id', 'suppliers.id')
-    ->where('payment_terms','LIKE','%'.$request->search."%")
+    $transactions = Transaction::where('payment_terms','LIKE','%'.$request->search."%")
     ->orWhere('description','LIKE','%'.$request->search."%")
     ->orWhere('status','LIKE','%'.$request->search."%")
     ->orWhere('proforma_invoice_number','LIKE','%'.$request->search."%")
+    ->join('suppliers', 'transactions.supplier_id', 'suppliers.id')
+    ->join('users', 'transactions.user_id', 'users.id')
+    ->orWhere('suppliers.name','LIKE','%'.$request->search."%")
     ->orWhere('users.fname','LIKE','%'.$request->search."%")
     ->orWhere('users.lname','LIKE','%'.$request->search."%")
-    ->orWhere('suppliers.name','LIKE','%'.$request->search."%")
     ->sortable()
     ->paginate(13);
 
@@ -175,6 +175,7 @@ public function search(Request $request){
         //$this->authorize('user', 'admin', Transaction::class);
         $transaction = Transaction::findorFail($id);
         $transaction->proforma_invoice_number = $request->proforma_invoice_number;
+        $transaction->description = $request->description;
         $transaction->quantity = $request->quantity;
         $transaction->unit_price = $request->unit_price;
         $total = $request->quantity * $request->unit_price;

@@ -19,6 +19,14 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="description" class="col-md-4 col-form-label text-md-right">description</label>
+                            <div class="col-md-6">
+                                <textarea required class="form-control" style="height: 200px;" name="description" id="description" name='description'>{{ $transaction->description }}</textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label for="title" class="col-md-4 col-form-label text-md-right">quantity</label>
                             <div class="col-md-6">
                                 <input type="number" required class="form-control" id="quantity" name='quantity' value={{ $transaction->quantity }}>
@@ -26,7 +34,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="title" class="col-md-4 col-form-label text-md-right">unit_price</label>
+                            <label for="unit_price" class="col-md-4 col-form-label text-md-right">unit_price</label>
                             <div class="col-md-6">
                                 <input type="number" required class="form-control" id="unit_price" name='unit_price' value={{ $transaction->unit_price }}>
                             </div>

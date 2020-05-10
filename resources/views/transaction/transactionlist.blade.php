@@ -66,12 +66,13 @@ table th {
                         </div>
                         @endif
                     </div>
-                    <div id="print" style="overflow-x:scroll;" class="col-sm-12">
-                        
+                    <div id="print">
+                        <div class="card">
                     <table class="table table-condenced">
                         <thead>
                             <tr>
                                 <th>@sortablelink('id', "id")</th>
+                                <th>@sortablelink('description', "description")</th>
                                 <th>@sortablelink('proforma_invoice_number', "invoice no.")</th>
                                 <th>@sortablelink('quantity', "quantity")</th>
                                 <th>@sortablelink('unit_price', "unit price")</th>
@@ -91,6 +92,7 @@ table th {
                                 @foreach($transactions as $transaction)
                                 <tr>
                                     <td>{{$transaction->id}}</td>
+                                    <td>{{$transaction->description}}</td>
                                     <td>
                                     @php
                                     $document = App\Http\Controllers\DocumentController::showstatic($transaction->document_id);
@@ -133,6 +135,7 @@ table th {
                                 @endforeach
                             </tbody>
                     </table>
+                </div>
                     </div>
 
 

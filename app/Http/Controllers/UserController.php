@@ -21,7 +21,20 @@ class UserController extends Controller
         //}
     }
 
-    
+    public function search(Request $request){
+        // $users = User::where('fname','LIKE','%'.$request->search."%")
+         //->orWhere('lname','LIKE','%'.$request->search."%")->get();
+      
+      $search = $request->search;
+         $users = User::where('fname','LIKE','%'.$request->search."%")
+         ->orWhere('lname','LIKE','%'.$request->search."%")
+         ->orWhere('email','LIKE','%'.$request->search."%")
+         ->orWhere('role','LIKE','%'.$request->search."%")
+         ->sortable()
+         ->paginate(13);
+     
+         return view('user.userlist', compact('users'));
+    }
     /**
      * Display the specified resource.
      *

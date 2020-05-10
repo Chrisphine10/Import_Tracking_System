@@ -98,7 +98,11 @@
     </li>
 
     @endcan
-    
+
+
+
+    @if (\Request::is('transactions') || \Request::is('searches') || \Request::is('dateFilter'))  
+  
         <li>
             <form action="{{ url('/dateFilter') }}" method="get" enctype="multipart/form-data">
                 @csrf
@@ -127,7 +131,78 @@
               </form> 
         
         </li>
-            
+        @endif
+           
+        @if (\Request::is('filters') || \Request::is('charts'))  
+        <?php $years = range(2010, strftime("%Y", time())); ?>
+        <li>
+            <form method="POST" action="{{ route('charts.store') }}" enctype="multipart/form-data">
+                @csrf
+               <label for="month">select month</label>
+               <input class="form-control" required type="month" name="month" id="month">
+               <input class="btn btn-primary" type="submit" value="Get Report" id="submit">
+              
+           </form>
+       </li>
+       <li>
+
+        <form method="POST" action="{{ route('charts.store') }}" id="search" class="navbar-form navbar-left" role="search">
+            @csrf
+                <label for="month">select year</label>
+                <ul class="navbar-nav mr-auto">
+                    <li>
+                        <select onchange="event.preventDefault();
+                        document.getElementById('search').submit();" class="form-control" type="number" name="year" id="year">
+                            <option value="">Select Year</option>
+                            <?php foreach($years as $year) : ?>
+                              <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+          </li>
+                </ul>
+              </form> 
+        
+        </li>
+        @endif
+
+
+        @if (\Request::is('suppliers') || \Request::is('suppliersearch'))  
+  
+       <li>
+
+        <form method="GET" action="{{ url('suppliersearch') }}" class="navbar-form navbar-left" role="search">
+            @csrf
+                <ul class="navbar-nav mr-auto">
+                    <li>
+              <input class="form-control" type="search" name="search" id="search">
+          </li><li>
+              <button type="submit" class="btn btn-warning">Search</button>
+              </li>
+                </ul>
+              </form> 
+        
+        </li>
+        @endif
+
+
+        @if (\Request::is('users') || \Request::is('usersearch'))  
+  
+        <li>
+ 
+         <form method="GET" action="{{ url('usersearch') }}" class="navbar-form navbar-left" role="search">
+             @csrf
+                 <ul class="navbar-nav mr-auto">
+                     <li>
+               <input class="form-control" type="search" name="search" id="search">
+           </li><li>
+               <button type="submit" class="btn btn-warning">Search</button>
+               </li>
+                 </ul>
+               </form> 
+         
+         </li>
+         @endif
+
   
 </ul>
             

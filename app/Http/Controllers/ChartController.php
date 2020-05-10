@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Chart;
 use App\User;
+use App\Supplier;
 use App\Transaction;
 use Illuminate\Http\Request;
 
@@ -17,9 +18,88 @@ class ChartController extends Controller
     public function index()
     {
 
-      $transactions = Transaction::all();
+        $year = date("Y");
+        $month = date("m");
 
-      $transact  = \Lava::DataTable();
+        $transact  = \Lava::DataTable();
+        $transact->addStringColumn('month')
+        ->addNumberColumn('Monthly Transactions');
+       
+
+        for ($i=1; $i<=12; $i++)
+        {
+              $dateObj   = \DateTime::createFromFormat('!m', $i);
+              $monthName = $dateObj->format('F');
+              $monthtransactions = Transaction::whereYear('date', $year)->whereMonth('date', $month)->orderBy('date')->get();
+              $monthcount = count($monthtransactions);   
+              $transact->addRow([
+                    $monthName, (int) $monthcount //$transaction->proforma_invoice_number
+                  ]);
+                  
+             
+          }
+
+          $allSuppliers = Supplier::all();
+            $supplier  = \Lava::DataTable();
+            $supplier->addStringColumn('Supplier')
+                ->addNumberColumn('Transactions');
+
+            $allusers = User::all();
+            $user  = \Lava::DataTable();
+            $user->addStringColumn('User')
+                ->addNumberColumn('Transactions');
+    
+
+            foreach($allusers as $alluser)
+            {
+                $usertrans = Transaction::whereYear('created_at', $year)->whereMonth('date', $month)->where('user_id', '=', $alluser->id)->orderBy('date')->get();
+                $count = count($usertrans);
+          if($count > 0) { 
+                $user->addRow([
+                    $alluser->fname, $count
+                 ]);
+                }
+            }
+
+            foreach($allSuppliers as $allSupplier)
+            {
+                $suppliertrans = Transaction::whereYear('date', $year)->whereMonth('date', $month)->where('supplier_id', '=', $allSupplier->id)->orderBy('date')->get();
+                $count = count($suppliertrans);
+                if($count > 0) { 
+                $supplier->addRow([
+                    $allSupplier->name, $count
+                 ]);
+                }
+            }
+          
+            $userbar = \Lava::AreaChart('User', $user, [
+                'title' => 'Monthly User Transactions', 
+                'legend' => ['position' => 'in'],
+                'interpolateNulls'   => true
+            ]);
+            $supplierbar = \Lava::AreaChart('Supplier', $supplier, [
+                'title' => 'Monthly Supplier Transactions', 
+                'legend' => [
+                    'position' => 'in']
+            ]);
+            $tran = \Lava::AreaChart('Transactions', $transact, [
+                'title' => 'Monthly Transactions',
+                'legend' => [
+                    'position' => 'in']
+            ]);
+            return view('filter', compact(['userbar']), compact(['supplierbar']), compact(['tran']));     
+//return $monthName;
+
+}
+
+
+   //$yearcount = count($yeartransactions);
+
+     // $transactions = Transaction::whereYear('date', '2020')->whereMonth('date', '4')->orderBy('date')->get();
+      //$monthcount = count($monthtransactions);
+      
+
+     
      /* $formatter  = \Lava::DateFormat([
           'pattern' => 'y-m-d',
       ]);
@@ -27,23 +107,9 @@ class ChartController extends Controller
       
 
       //$transact->addDateColumn('Date', $formatter)
-      $transact->addStringColumn('month')
-      ->addNumberColumn('Price');
-
-
-      foreach($transactions as $transaction)
-{
-      $date = $transaction->date;
-      $monthNum  = date('m', strtotime($date));
-      $dateObj   = \DateTime::createFromFormat('!m', $monthNum);
-      $monthName = $dateObj->format('F');
-      $date = $transaction->date;
-          $transact->addRow([
-            $monthName, (int) $transaction->total_price //$transaction->proforma_invoice_number
-          ]);
-          
      
-  }
+
+
 /*
   $allusers = User::all();
   
@@ -90,31 +156,7 @@ foreach($usertrans as $usertran){
     ]);
 }
 */
-    $allusers = User::all();
-    $user  = \Lava::DataTable();
-    $user->addStringColumn('User')
-        ->addNumberColumn('Transactions');
 
-    foreach($allusers as $alluser)
-    {
-        $usertrans = Transaction::where('user_id', '=', $alluser->id)->get();
-        $count = count($usertrans);
-
-        $user->addRow([
-            $alluser->fname, $count
-         ]);
-    }
-
-      
-            $tran = \Lava::AreaChart('Transactions', $transact);
-            $userbar = \Lava::ScatterChart('Votes', $user);
-     // return view('filter', compact(['tran']));
-
-return view('filter', compact(['tran']), compact(['userbar'])); // I add these line
-
-//return $monthName;
-
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -134,8 +176,97 @@ return view('filter', compact(['tran']), compact(['userbar'])); // I add these l
      */
     public function store(Request $request)
     {
-        
-        //return $transactions;
+          
+        if (isset($request->year)) {
+            $transact  = \Lava::DataTable();
+            $transact->addStringColumn('month')
+            ->addNumberColumn('Monthly Transactions');
+            
+            $year = $request->year;
+
+            for ($i=1; $i<=12; $i++)
+            {
+                  $dateObj   = \DateTime::createFromFormat('!m', $i);
+                  $monthName = $dateObj->format('F');
+                  $monthtransactions = Transaction::whereYear('date', $year)->whereMonth('date', $i)->orderBy('date')->get();
+                  $monthcount = count($monthtransactions); 
+                  if($monthcount > 0) {   
+                  $transact->addRow([
+                        $monthName, (int) $monthcount //$transaction->proforma_invoice_number
+                      ]);
+                  }
+                      
+                 
+              }
+                    
+    $tran = \Lava::AreaChart('Transactions', $transact, [
+        'title' => 'Monthly Transactions',
+        'legend' => [
+            'position' => 'in']
+    ]);
+    return view('filter', compact(['tran']));
+            
+
+        }
+        else {
+
+            $allSuppliers = Supplier::all();
+            $supplier  = \Lava::DataTable();
+            $supplier->addStringColumn('Supplier')
+                ->addNumberColumn('Transactions');
+
+            $allusers = User::all();
+            $user  = \Lava::DataTable();
+            $user->addStringColumn('User')
+                ->addNumberColumn('Transactions');
+    
+            $year = date('Y', strtotime($request->month));
+            $month = date('m', strtotime($request->month));
+
+            foreach($allusers as $alluser)
+            {
+                $usertrans = Transaction::whereYear('created_at', $year)->whereMonth('date', $month)->where('user_id', '=', $alluser->id)->orderBy('date')->get();
+                $count = count($usertrans);
+                if($count > 0) {  
+                $user->addRow([
+                    $alluser->fname, $count
+                 ]);
+                }
+            }
+
+            foreach($allSuppliers as $allSupplier)
+            {
+                $suppliertrans = Transaction::whereYear('date', $year)->whereMonth('date', $month)->where('supplier_id', '=', $allSupplier->id)->orderBy('date')->get();
+                $count = count($suppliertrans);
+                if($count > 0) {  
+                $supplier->addRow([
+                    $allSupplier->name, $count
+                 ]);
+                }
+            }
+          
+             
+    $userbar = \Lava::AreaChart('User', $user, [
+        'title' => 'Monthly User Transactions',
+        'legend' => [
+            'position' => 'in']
+    ]);
+    $supplierbar = \Lava::AreaChart('Supplier', $supplier, [
+        'title' => 'Monthly Suplier Transactions',
+        'legend' => [
+            'position' => 'in']
+    ]);
+    return view('filter', compact(['userbar']), compact(['supplierbar']));
+        }
+       
+     
+    
+  
+
+  // return view('filter', compact(['tran']));
+  
+  // I add these line
+  
     }
 
     /**

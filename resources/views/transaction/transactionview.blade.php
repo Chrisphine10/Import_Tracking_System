@@ -16,6 +16,9 @@
                         <div><p><strong>proforma_invoice_number</strong>
                         {{ $transaction->proforma_invoice_number }}
                         </p>
+                        <p><strong>description</strong>
+                            {{ $transaction->description }}
+                            </p>
                         <p><strong>quantity</strong>
                         {{ $transaction->quantity }}
                         </p>
@@ -28,10 +31,6 @@
                         <p><strong>payment terms</strong>
                         {{ $transaction->payment_terms }}
                         </p>
-                        <p><strong>user id</strong>
-                        {{ $transaction->user_id }}
-                        </p>
-
                       
                         <form action="{{ route('transactions.edit', $transaction->id) }}" method="get">
                             @csrf
